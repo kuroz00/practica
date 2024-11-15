@@ -1,0 +1,133 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+
+\title{UCM Data Visor}
+\author{Diego Pacheco, Manuel Bahamondes}
+\date{2024}
+
+\pdfinfo{%
+  /Title    (UCM Data Visor)
+  /Author   (Diego Pacheco)
+  /Creator  (Manuel Bahamondes, Diego Pacheco)
+  /Producer (Manuel Bahamondes, Diego Pacheco)
+  /Subject  (Desarrollo e integración de sistemas)
+  /Keywords (docs, documentacion, ucm visor)
+}
+
+\begin{document}
+
+% Título principal
+\maketitle
+\newpage
+
+% Sección Introducción
+\section{Introducción}
+Este documento presenta todos los aspectos técnicos y lógicos del visor de datos de la API UCM, diseñado para facilitar el análisis de costos generados por el uso de líneas telefónicas en las sedes donde el sistema está integrado. La aplicación web proporciona una interfaz amigable, accesible tanto para desarrolladores como para usuarios no técnicos, permitiendo visualizar detalles profundos de las llamadas y sus costos asociados, basándose en los diversos datos suministrados por la API.
+
+% Índice del proyecto
+\newpage
+\section*{Descripción de contenidos}
+
+\begin{itemize}
+    \item \textbf{Documentación}
+    \begin{itemize}
+        \item \texttt{UCM Visor: documentación general} - Documento principal con los detalles técnicos y descripción general del proyecto.
+    \end{itemize}
+
+    \item \textbf{Archivos de Configuración}
+    \begin{itemize}
+        \item \texttt{access.env} - Variables de entorno relacionadas con el acceso.
+        \item \texttt{ucm\_session.env} - Configuración de entorno para la sesión UCM.
+        \item \texttt{config.php} - Archivo de configuración principal de la aplicación.
+        \item \texttt{connection.php} - Archivo de conexión a la base de datos.
+    \end{itemize}
+
+    \item \textbf{Archivos Principales}
+    \begin{itemize}
+        \item \texttt{login.php} - Lógica de la página de inicio de sesión.
+        \item \texttt{querys.php} - Función para inicializar la conexión con la UCM API.
+        \item \texttt{register.php} - Interfaz y lógica de registro de usuarios.
+        \item \texttt{session.php} - Gestión de sesiones de usuario.
+        \item \texttt{sql\_local\_database.php} - Archivo para obtención de las llamadas de la sede local.
+    \end{itemize}
+
+    \item \textbf{Directorio css}
+    \begin{itemize}
+        \item \texttt{inicio.css} - Archivo de estilos para la página de inicio.
+    \end{itemize}
+
+    \item \textbf{Directorio maquetado}
+    \begin{itemize}
+        \item \textbf{Mockup}
+        \begin{itemize}
+            \item \texttt{Pantallas.txt} - Descripción de las pantallas del sistema.
+            \item \texttt{index php login.png} - Imagen de referencia para el diseño de la pantalla de inicio de sesión.
+        \end{itemize}
+        \item \textbf{database}
+        \begin{itemize}
+            \item \texttt{ucm\_visor\_database.sql} - Script SQL para la creación de la base de datos del visor UCM.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Directorio vista}
+    \begin{itemize}
+        \item \texttt{centro\_costos.php} - Página para visualizar los centros de costos.
+        \item \texttt{content.php} - Página principal de contenido.
+        \item \texttt{index.php} - Página de login.
+        \item \texttt{register.css} - Archivo de estilos para la página de registro.
+        \item \texttt{register.php} - Página de registro de usuarios.
+        \item \texttt{style.css} - Archivo de estilos principal.
+    \end{itemize}
+\end{itemize}
+
+% Sección Archivos de Configuración
+\newpage
+\section*{Archivos de configuración}
+
+\subsection*{\texttt{access.env}}
+Este archivo de extensión \texttt{.env} almacena las variables de entorno utilizadas por \texttt{config.php} para establecer la conexión con la base de datos principal. El archivo contiene los siguientes parámetros:
+
+\begin{verbatim}
+DB_HOST=127.0.0.1
+DB_NAME=ucm_visor_database
+DB_USER=root
+DB_PASSWORD=
+DB_CHARSET=utf8
+\end{verbatim}
+
+Los datos guardados incluyen: la dirección IP del servidor que aloja la base de datos principal (\texttt{ucm\_visor\_database.sql}), el nombre de la base de datos, el nombre de usuario, la contraseña del usuario y el conjunto de caracteres utilizado en la base de datos.
+
+\subsection*{\texttt{ucm\_session.env}}
+Este archivo de extensión \texttt{.env} almacena las variables de entorno utilizadas por \texttt{querys.php} para guardar la SESSIONID entregada por la API UCM, para así poder generar peticiones a la misma y almacenar los datos entregados por esta de manera local. El archivo contiene los siguientes parámetros:
+\begin{verbatim}
+ UCM_SESSION=
+\end{verbatim}
+\texttt{UCM\_SESSION} refiere a la sesión (cookie) entregada por la API UCM. Es almacenada aquí por estándares de seguridad, y nunca es empleada en texto claro en las solicitudes que se realizan a la API.
+
+\subsection*{\texttt{config.php}}
+Este programa carga y devuelve de manera segura los datos almacenados en el archivo \texttt{access.env}. Su retorno es un diccionario de claves. No toma parámetros, pues se asume que el archivo \texttt{access.env} se encontrará en el mismo \texttt{PATH} (directorio) que el archivo \texttt{config.php}. El retorno de este programa está estructurado de la siguiente manera:
+\begin{verbatim}
+<?php
+$env = parse_ini_file(trim("access.env"));
+return [
+    'host' => $env['DB_HOST'] ?? 'localhost',
+    'dbname' => $env['DB_NAME'] ?? '',
+    'user' => $env['DB_USER'] ?? '',
+    'password' => $env['DB_PASSWORD'] ?? '',
+    'charset' => $env['DB_CHARSET'] ?? 'utf8'
+];
+?>s
+\end{verbatim}
+En este archivo, se cargan, desde el archivo de entorno, los datos de la base de datos. Deben ser almacenados en una variable para su posterior utilización.
+\newpage
+\subsection*{\texttt{connection.php}}
+Este programa entabla la conexión con el servicio que aloja la base de datos en la máquina anfritrión (host, desde ahora en adelante), y todo archivo que realiza peticiones a dicha base de datos referenciará a este archivo en su algoritmo.
+\begin{verbatim}
+<?php
+function connection(){
+	$config = include('config.php');
+	try {
+	    $dsn = "mysql:host={$config['host']};dbname={$config['dbname']};charset={$config['charset']}";
+\end{verbatim}
+Se declara la función \texttt{connection()} para invocar la función de conexión. Al igual
+\end{document}

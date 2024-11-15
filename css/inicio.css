@@ -1,0 +1,117 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+/* Centrado de contenido principal */
+.container {
+    min-height: calc(100vh - 80px); 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Barra de navegación 
+.navbar {
+    background-color: #000;
+    overflow: hidden;
+}
+
+.navbar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.navbar li {
+    position: relative;
+}
+
+.navbar li a {
+    display: block;
+    color: white;
+    padding: 14px 20px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.navbar li a:hover {
+    background-color: #575757;
+}
+
+.navbar .dropdown:hover .submenu {
+    display: block;
+}
+*/
+/* Submenú */
+.submenu {
+    display: none;
+    position: absolute;
+    background-color: #000;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    top: 100%;
+    left: 0;
+    min-width: 150px;
+}
+
+.submenu li a {
+    padding: 10px;
+    color: white;
+}
+
+.submenu li a:hover {
+    background-color: #575757;
+}
+
+/* Cuerpo de la página */
+.container {
+    padding: 20px;
+}
+
+.title {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+}
+
+.container{
+    background-color: #575757;
+    border: solid;
+}
+
+
+/* Pie de página */
+
+
+        /* Estilos del footer*/
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #000000;
+            color: aliceblue;
+            text-align: center;
+            padding: 10px;
+        }

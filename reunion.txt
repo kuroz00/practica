@@ -1,0 +1,37 @@
+un usuario accede a un centro de costos, centro de costos tiene departamentos y campus, teniendo cada uno lista de anexos, teniendo estos ligados datos como la compañía y cosas similares
+- ip central telefónica para las distintas api de cada sede de la universidad
+
+-cuantos minutos hablo un anexo, con descarga o impresión
+
+
+la central telefónica tiene una whitelist que permite que solo ciertas ip hagan peticionesal servicio
+
+- detalles de llamadas por campus, departamento y anexo, llamadas salidas y entradas para cada una
+
+- modulo de precarga de la base de datos para poder realizar solicitudes a base de datos locales sin usar los datos de la api directamente para poder realizar solicitudes de¿manera eficiente
+ya que la api entrega muchos datos de muchos anexos de golpe y esto es un problema la hora de filtrar datos
+
+- pantalla login
+
+- centro de costo
+
+- modulo de mantención para perfiles de los usuarios que acceden al sistema, ahi se inrgesarian los usuarios, mantención de perfiles que asocia al usuario sobre su acceso a la información
+por ejmplo, Manuel puede leer tantas cosas y realizar tantas cosas. centrales, ip, mac, etc. - centros de costo, edificio ing, listado de anexos los cuales tienen ubicación física.
+
+- hay que catalogar cada anexo de cada departamento
+
+- telefonía ip
+
+los troncales es numero, compañía, ip
+
+- proveedor de la troncal es la linea por donde entran y salen las llamadas
+
+- horarios de la oficina
+
+- reglas de alarma para anexos, ej, avisar si un anexo gasta mucho
+
+- respaldar bbdd
+
+- borrar registros de la bbdd
+
+- reprocesar llamadas o cargar la base de datos antes de hacer una consulta

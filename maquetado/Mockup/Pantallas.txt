@@ -1,0 +1,5 @@
+
+---------- PANTALLA DE LOGIN: INDEX.PHP -------------------------------
+[    NOMBRE DE BOTÓN 	]  [ID DE BOTON]		[FUNCIONALIDAD]
+	Login button 		(1) 		--->	
+Recuperar contraseña 		(2)		--->
